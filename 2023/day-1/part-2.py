@@ -20,8 +20,8 @@ sum = 0
 
 for line in lines:
     digits = re.findall(r'(?=(one|two|three|four|five|six|seven|eight|nine|[1-9]))', line)
-    digits[0] = digit_dict[digits[0]] if digit_dict.get(digits[0]) != None else int(digits[0])
-    digits[-1] = digit_dict[digits[-1]] if digit_dict.get(digits[-1]) != None else int(digits[-1])
-    sum += digits[0] * 10 + digits[-1]
+    digits[0] = digit_dict.get(digits[0], digits[0])
+    digits[-1] = digit_dict.get(digits[-1], digits[-1])
+    sum += int(digits[0]) * 10 + int(digits[-1])
 
 print(sum)
