@@ -19,7 +19,6 @@ def to_dict(data):
 red = 12
 green = 13
 blue = 14
-dices = []
 count = 1
 total = 0
 
