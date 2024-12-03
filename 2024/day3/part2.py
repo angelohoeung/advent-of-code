@@ -15,10 +15,8 @@ for token in tokens:
         mul = True
     elif token == "don't()":
         mul = False
-    elif mul and re.match(pattern, token):
-        match = re.match(pattern, token)
-        if match:
-            num1, num2 = int(match.group(1)), int(match.group(2))
-            sumProd += num1 * num2
+    elif mul and (match := re.match(pattern, token)):
+        num1, num2 = int(match.group(1)), int(match.group(2))
+        sumProd += num1 * num2
 
 print(sumProd)
