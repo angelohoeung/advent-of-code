@@ -6,35 +6,38 @@ with open(f"{dirname(__file__)}/input.txt", "r") as file:
 orderRules = [line.split("|") for line in lines if "|" in line]
 updates = [line.split(",") for line in lines if "," in line]
 
-count = 0
-valid = True
-invalids = []
-incorrNums = []
-
-for i in range(len(updates)):
-    valid = True
-    for j in range(len(updates[i])):
-        for k in range(len(orderRules)):
+def checkValid(row):
+    for i in range(len(row)):
+        for j in range(len(orderRules)):
             try:
-                if updates[i][j] == orderRules[k][0] and updates[i].index(orderRules[k][1]) < j:
-                    valid = False
-                    break
+                if row[i] == orderRules[j][0] and row.index(orderRules[j][1]) < i:
+                    return False
             except:
                 continue
-    if not valid:
-        invalids.append(updates[i])
+    return True
 
-for idk in range(25):
-    for i in range(len(invalids)):
-        for j in range(len(invalids[i])):
-            for k in range(len(orderRules)):
-                try:
-                    if invalids[i][j] == orderRules[k][0] and invalids[i].index(orderRules[k][1]) < j:
-                        temp = invalids[i][j]
-                        invalids[i][j] = invalids[i][invalids[i].index(orderRules[k][1])]
-                        invalids[i][invalids[i].index(orderRules[k][1])] = temp
-                except:
-                    continue
+def fixRow(row):
+    for i in range(len(row)):
+        for j in range(len(orderRules)):
+            try:
+                if row[i] == orderRules[j][0] and row.index(orderRules[j][1]) < i:
+                    temp = row[i]
+                    row[i] = row[row.index(orderRules[j][1])]
+                    row[row.index(orderRules[j][1])] = temp
+            except:
+                continue
+    return row
+
+count = 0
+invalids = []
+
+for update in updates:
+    if not checkValid(update):
+        invalids.append(update)
+
+for i in range(len(invalids)):
+    while not checkValid(invalids[i]):
+        invalids[i] = fixRow(invalids[i])
 
 for item in invalids:
     count += int(item[(len(item) - 1) // 2])
